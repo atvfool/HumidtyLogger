@@ -8,8 +8,20 @@
 </head>
 <body>
     <h1>Hello World!</h1>
-    {% for line in data %}
-        {{line}}
-    {% endfor %}
+    <table>
+        <tr>
+            <th>Date/Time</th>
+            <th>Location</th>
+            <th>Humidity</th>
+            <th>Temp</th>
+        </tr>
+        {% for line in data %}
+            <tr>
+                {% for col in line %}
+                    <td>{{col}}</td>
+                {% endfor %}
+            </tr>    
+        {% endfor %}
+    </table>
 </body>
 </html>
