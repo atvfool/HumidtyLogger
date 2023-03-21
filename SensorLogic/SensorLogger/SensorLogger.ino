@@ -75,7 +75,7 @@ void loop()
   String url = "/log/Basement/" + String(humidity) + "/" + String(dht.toFahrenheit(temperature));
 
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "User-Agent: BuildFailureDetectorESP8266\r\n" + "Connection: close\r\n\r\n");
-  
-  delay(2000);
+  Serial.println("request sent");
+  delay(300000);
 }
 
