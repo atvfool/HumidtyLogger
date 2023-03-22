@@ -15,10 +15,11 @@ const char* ssid = STASSID;
 const char* password = STAPSK;
 
 const char* host = STAHOST;
-const uint16_t port = 5000;
+const char* location = STALOCATION;
+const uint16_t port = STAPORT;
 
 ESP8266WiFiMulti WiFiMulti;
-WiFiClientSecure client;
+WiFiClient client;
 void setup()
 {
   Serial.begin(115200);
@@ -43,6 +44,10 @@ void setup()
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  Serial.println("Other settings:");
+  Serial.println(String(host));
+  Serial.println(String(port));
+  Serial.println(String(location));
 
   Serial.println("Status\tHumidity (%)\tTemperature (C)\t(F)\tHeatIndex (C)\t(F)");
   delay(500);
@@ -67,15 +72,15 @@ void loop()
   Serial.print("\t\t");
   Serial.println(dht.computeHeatIndex(dht.toFahrenheit(temperature), humidity, true), 1);
 
-  if (!client.connect(host, port)) {
+  if (!client.connect(host, 54321)) {
     Serial.println("Connection failed");
     return;
   }
   
-  String url = "/log/Basement/" + String(humidity) + "/" + String(dht.toFahrenheit(temperature));
-
+  String url = "/log/" + String(location) + "/" + String(humidity) + "/" + String(dht.toFahrenheit(temperature));
+Serial.println("sending request");
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "User-Agent: BuildFailureDetectorESP8266\r\n" + "Connection: close\r\n\r\n");
   Serial.println("request sent");
-  delay(300000);
+  delay(150000); // should be 2 min
 }
 
