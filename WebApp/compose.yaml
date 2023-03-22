@@ -10,7 +10,10 @@ services:
     ports:
       - '8000:8000'
     volumes:
-      - humiditylogger_vol:/app
+      - app:/app
 volumes:
-  humiditylogger_vol:
-    external: true
+  app:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
